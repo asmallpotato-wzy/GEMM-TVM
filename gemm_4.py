@@ -80,7 +80,8 @@ m,n  = s[C].op.axis
 k = s[C].op.reduce_axis[0]
 mo, no, mi, ni = s[C].tile(m,n,mr,nr)
 s[C].reorder(mo,no,k,mi,ni)
-
+s[C].unroll(mi)
+s[C].vectorize(ni)
 
 func = tvm.build(s, [A, packedB, C], target=target, name='mmult')
 assert func
